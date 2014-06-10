@@ -10,4 +10,10 @@
 
 5. Display two animated signals one on top, one on bottom
 
-6. Display 10 signals on to of each other.
+6. Display 10 signals on top of each other.
+
+7. Get rid ot spurious lines in the previous example.
+
+8. Animate 100 signals of 500 points each using techniques from 4.
+
+9. Read data from the given hdf5 file and display them (100 signals of 1000 points at a time).
