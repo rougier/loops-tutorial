@@ -28,12 +28,16 @@ class Window(app.Canvas):
         app.Canvas.__init__(self)
         self.program = gloo.Program(vertex, fragment, n)
         gl.glClearColor(1,1,1,1)
-        self.data =np.zeros(n, [('x', np.float32, 1),
-                                ('y', np.float32, 1)])
-        self.data['x'] = np.linspace(-1.0, +1.0, n)
-        self.data['y'] = np.random.uniform(-0.5, +0.5, n).astype(np.float32)
-        self.vdata = gloo.VertexBuffer(self.data)
-        self.program.bind(self.vdata)
+
+        self.xdata = np.zeros(n, [('y', np.float32, 1)])
+        self.xdata[...] = np.linspace(-1.0, +1.0, n)
+        self.vxdata = gloo.VertexBuffer(self.xdata)
+        self.program['x'] = self.vxdata
+
+        self.ydata = np.zeros(n, [('x', np.float32, 1)])
+        self.ydata[...] = np.random.uniform(-0.5, +0.5, n).astype(np.float32)
+        self.vydata = gloo.VertexBuffer(self.ydata)
+        self.program['y'] = self.vydata
 
         self._timer = app.Timer(1.0/60)
         self._timer.connect(self.on_timer)
@@ -49,12 +53,9 @@ class Window(app.Canvas):
         self.program.draw(gl.GL_LINE_STRIP)
 
     def on_timer(self, event):
-        n = self.data.size
-
+        n = self.ydata.size
         self.index = (self.index+1) % n
-        self.data['y'][self.index] = np.random.uniform(-0.5, +0.5)
-
-        self.vdata.set_data(self.data)
+        self.vydata[self.index] = (np.random.uniform(-0.5, +0.5),)
         self.update()
 
 

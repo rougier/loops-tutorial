@@ -28,8 +28,8 @@ class Window(app.Canvas):
         app.Canvas.__init__(self)
         self.program = gloo.Program(vertex, fragment, n)
         gl.glClearColor(1,1,1,1)
-        self.data =np.zeros(n, [('x', np.float32, 1),
-                                ('y', np.float32, 1)])
+        self.data = np.zeros(n, [('x', np.float32, 1),
+                                 ('y', np.float32, 1)])
         self.data['x'] = np.linspace(-1.0, +1.0, n)
         self.data['y'] = np.random.uniform(-0.5, +0.5, n).astype(np.float32)
         self.vdata = gloo.VertexBuffer(self.data)
